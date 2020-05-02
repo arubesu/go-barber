@@ -18,6 +18,7 @@ class ProviderController {
           attributes: [
             'name',
             'path',
+            'url',
           ]
         },
       ],
