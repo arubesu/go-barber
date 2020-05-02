@@ -120,3 +120,6 @@ dist
 .yarn/build-state.yml
 .pnp.*
 .vscode/launch.json
+
+#tmp files
+tmp/uploads/*
