@@ -5,6 +5,7 @@ import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
 import Notification from '../schemas/Notification';
+import Mail from '../../lib/Mail';
 
 class AppointmentController {
 
@@ -122,7 +123,18 @@ class AppointmentController {
 
   async delete(req, res) {
 
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'name',
+            'email',
+          ],
+        }
+      ]
+    });
 
     if (!appointment) {
       return res.status(400).json({ error: 'This Appointment does not exists' });
@@ -150,6 +162,12 @@ class AppointmentController {
     appointment.canceled_at = new Date();
 
     appointment.save();
+
+    await Mail.sendMail({
+      to: `${appointment.user.name} <${appointment.user.email}>`,
+      subject: `Cancelamento de agendamento`,
+      text: `Cum rerum consequuntur voluptatem dolores.`
+    })
 
     return res.json(appointment);
   }
