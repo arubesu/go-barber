@@ -127,12 +127,19 @@ class AppointmentController {
       include: [
         {
           model: User,
-          as: 'user',
+          as: 'provider',
           attributes: [
             'name',
             'email',
           ],
-        }
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'name',
+          ],
+        },
       ]
     });
 
@@ -164,9 +171,18 @@ class AppointmentController {
     appointment.save();
 
     await Mail.sendMail({
-      to: `${appointment.user.name} <${appointment.user.email}>`,
+      to: `${appointment.provider.name} <${appointment.provider.email}>`,
       subject: `Cancelamento de agendamento`,
-      text: `Cum rerum consequuntur voluptatem dolores.`
+      template: 'cancelation',
+      context: {
+        provider: appointment.provider.name,
+        user: appointment.user.name,
+        date: format(
+          appointment.date,
+          "dd 'de' MMMM 'de' yyyy ', às ' HH:mm'h'",
+          { locale: pt }
+        )
+      }
     })
 
     return res.json(appointment);
