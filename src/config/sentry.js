@@ -1,3 +1,4 @@
 export default {
-  dsn: process.env.SENTRY_DSN
+  dsn: process.env.SENTRY_DSN,
+  captureUnhandledRejections: true
 }
