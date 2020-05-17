@@ -57,7 +57,6 @@ class AvailabilityController {
 
     return res.json(availability);
   }
-
 }
 
 export default new AvailabilityController();
