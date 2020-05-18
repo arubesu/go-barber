@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import 'express-async-errors';
 import Youch from 'youch';
 import Helmet from 'helmet';
@@ -28,6 +29,9 @@ class App {
     this.server.use(Sentry.Handlers.requestHandler());
     this.server.use(express.json());
     this.server.use(Helmet());
+    this.server.use(cors({
+      origin: process.env.ORIGIN_URL
+    }));
 
     this.server.use(
       '/files',
