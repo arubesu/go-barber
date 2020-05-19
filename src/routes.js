@@ -18,7 +18,6 @@ import SessionStoreValidator from './app/validators/SessionStoreValidator';
 import UserStoreValidator from './app/validators/UserStoreValidator';
 import UserUpdateValidator from './app/validators/UserUpdateValidator';
 import AppointmentStoreValidator from './app/validators/AppointmentStoreValidator';
-import NotificationUpdateValidator from './app/validators/NotificationUpdateValidator';
 import ProviderScheduleStoreValidator from './app/validators/ProviderScheduleStoreValidator';
 import authMiddleware from './app/middlewares/auth';
 
