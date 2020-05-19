@@ -69,9 +69,10 @@ class App {
         return res.status(err.statusCode || 500).json(errors);
       }
 
-      return res
-        .status(err.statusCode || 500)
-        .json({ errors: err.message || 'Internal Server Error' });
+      const message =
+        err.statusCode < 500 ? err.message : 'Internal Server Error';
+
+      return res.status(err.statusCode || 500).json({ errors: message });
     });
   }
 }
