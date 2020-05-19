@@ -14,6 +14,7 @@ import NotificationController from './app/controllers/NotificationController';
 import AvailabilityController from './app/controllers/AvailabilityController';
 import ProviderScheduleController from './app/controllers/ProviderScheduleController';
 
+import SessionStoreValidator from './app/validators/SessionStoreValidator';
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
@@ -27,7 +28,7 @@ const bruteForce = new ExpressBrute(store);
 
 routes.post('/users', UserController.store);
 
-routes.post('/sessions', bruteForce.prevent, SessionController.store);
+routes.post('/sessions', bruteForce.prevent, SessionStoreValidator, SessionController.store);
 
 routes.use(authMiddleware);
 
