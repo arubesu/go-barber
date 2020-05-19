@@ -30,8 +30,6 @@ class CreateAppointmentService {
      */
 
     const hourStart = startOfHour(parseISO(date));
-    console.log(`###hourStart   ${hourStart}`);
-    console.log(`###date   ${date}`);
 
     if (isBefore(hourStart, new Date())) {
       throw new BadRequestError('Past dates are not allowed');
