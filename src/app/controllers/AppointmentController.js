@@ -42,18 +42,6 @@ class AppointmentController {
   }
 
   async store(req, res) {
-
-    const schema = Yup.object().shape({
-      date: Yup.date().required(),
-      provider_id: Yup.number().required(),
-    });
-
-    try {
-      await schema.validate(req.body);
-    } catch (err) {
-      return res.status(400).json({ error: err.errors });
-    }
-
     const { provider_id, date } = req.body;
 
     if (req.userId === provider_id) {
