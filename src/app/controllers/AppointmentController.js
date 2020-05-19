@@ -1,10 +1,8 @@
-import { isBefore, subHours } from 'date-fns';
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
-import Queue from '../../lib/Queue';
-import CancellationMail from '../jobs/CancellationMail';
 import CreateAppointmentService from '../services/CreateAppointmentService';
+import CancelAppointmentService from '../services/CancelAppointmentService';
 
 class AppointmentController {
   async index(req, res) {
@@ -51,57 +49,11 @@ class AppointmentController {
   }
 
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-          as: 'provider',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name'],
-        },
-      ],
+    await CancelAppointmentService.run({
+      appointmentId: req.params.id,
+      userId: req.userId,
     });
-
-    if (!appointment) {
-      return res
-        .status(400)
-        .json({ error: 'This Appointment does not exists' });
-    }
-
-    if (appointment.user_id !== req.userId) {
-      return res.status(401).json({
-        error: 'You cannot have permission to cancel this appointment',
-      });
-    }
-
-    if (appointment.canceled_at) {
-      return res
-        .status(400)
-        .json({ error: 'This appointment is already canceled' });
-    }
-
-    // //TODO: Add parameter to hour, to remove hardcode
-    const maxDateAllowedToCancel = subHours(appointment.date, 2);
-
-    if (isBefore(maxDateAllowedToCancel, new Date())) {
-      return res
-        .status(401)
-        .json({ error: 'You can only cancel appointment 2 hours in advance' });
-    }
-
-    appointment.canceled_at = new Date();
-
-    appointment.save();
-
-    await Queue.add(CancellationMail.key, {
-      appointment,
-    });
-
-    return res.json(appointment);
+    return res.status(204).json();
   }
 }
 
