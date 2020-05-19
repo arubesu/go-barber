@@ -45,7 +45,7 @@ routes.get('/providers', ProviderController.index);
 routes.get('/providers/:id/availability', AvailabilityController.index);
 
 routes.get('/providers/schedule', ProviderScheduleController.index);
-routes.post('/providers/schedule', ProviderScheduleController.store);
+routes.post('/providers/schedule', ProviderScheduleStoreValidator, ProviderScheduleController.store);
 
 routes.post('/appointments', AppointmentStoreValidator, AppointmentController.store);
 routes.get('/appointments', AppointmentController.index);

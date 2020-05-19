@@ -17,22 +17,7 @@ class ProviderScheduleController {
 
   async store(req, res) {
     const { startHour, endHour } = req.body;
-
-    let start = Number(startHour);
-    let end = Number(endHour);
     let { userId } = req;
-
-    if (!start || !end)
-      return res.status(400).json({ error: 'start or end hour is invalid' });
-
-    if (start > end || start === end)
-      return res.status(400).json({ error: 'EndHour must be greater than startHour' });
-
-    if (start < 0 || start > 23)
-      return res.status(400).json({ error: 'startHour must be in range of 0 - 23 hours' });
-
-    if (end < 0 || end > 23)
-      return res.status(400).json({ error: 'EndHour must be in range of 0 - 23 hours' });
 
     let provider = await User.findOne({
       where: {
@@ -50,8 +35,8 @@ class ProviderScheduleController {
       }
     })
 
-    let parsedStart = `${start}:00`;
-    let parsedEnd = `${end}:00`;
+    let parsedStart = `${startHour}:00`;
+    let parsedEnd = `${endHour}:00`;
 
     if (!currentProviderSchedule) {
 
