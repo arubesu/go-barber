@@ -6,12 +6,11 @@ import Appointment from '../models/Appointment';
 
 class ScheduleController {
   async index(req, res) {
-
     const provider = await User.findOne({
       where: {
         id: req.userId,
-        provider: true
-      }
+        provider: true,
+      },
     });
 
     if (!provider) {
@@ -27,13 +26,11 @@ class ScheduleController {
         provider_id: req.userId,
         canceled_at: null,
         date: {
-          [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)]
-        }
+          [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
+        },
       },
-      attributes: [
-        'id', 'date', 'user_id'
-      ]
-    })
+      attributes: ['id', 'date', 'user_id'],
+    });
 
     return res.json(schedule);
   }

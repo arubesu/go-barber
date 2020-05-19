@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('appointments', {
@@ -11,7 +9,7 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -31,16 +29,16 @@ module.exports = {
       },
       created_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       updated_at: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   },
 
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.dropTable('appointments');
-  }
+  },
 };

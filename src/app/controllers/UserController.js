@@ -1,21 +1,23 @@
-import User from '../models/User'
+import User from '../models/User';
 
 import messages from '../../util/messages';
 
-const userEmailExists = async (req) => {
+const userEmailExists = async req => {
   return await User.findOne({ where: { email: req.body.email } });
-}
+};
 
 class UserController {
   async store(req, res) {
-
     if (await userEmailExists(req)) {
       return res.status(400).json({ error: messages.error.user.alreadyExists });
     }
 
     const { id, name, email, provider } = await User.create(req.body);
     return res.json({
-      id, name, email, provider
+      id,
+      name,
+      email,
+      provider,
     });
   }
 
@@ -26,18 +28,25 @@ class UserController {
 
     if (email !== user.email) {
       if (await userEmailExists(req)) {
-        return res.status(400).json({ error: messages.error.user.alreadyExists });
+        return res
+          .status(400)
+          .json({ error: messages.error.user.alreadyExists });
       }
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: messages.error.user.passwordInvalid })
+      return res
+        .status(401)
+        .json({ error: messages.error.user.passwordInvalid });
     }
 
     const { id, name, provider } = await user.update(req.body);
 
     return res.json({
-      id, name, email, provider
+      id,
+      name,
+      email,
+      provider,
     });
   }
 }

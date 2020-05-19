@@ -5,5 +5,5 @@ export default {
       passwordInvalid: 'Password does not match',
       notFound: 'User not found',
     },
-  }
-}
+  },
+};

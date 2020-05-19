@@ -1,10 +1,10 @@
 import Sequelize from 'sequelize';
 import mongoose from 'mongoose';
 
-import User from '../app/models/User'
-import File from '../app/models/File'
-import Appointment from '../app/models/Appointment'
-import ProviderSchedule from '../app/models/ProviderSchedule'
+import User from '../app/models/User';
+import File from '../app/models/File';
+import Appointment from '../app/models/Appointment';
+import ProviderSchedule from '../app/models/ProviderSchedule';
 
 import databaseConfig from '../config/database';
 
@@ -27,8 +27,8 @@ class Database {
   mongo() {
     mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
+      useUnifiedTopology: true,
+    });
   }
 }
 

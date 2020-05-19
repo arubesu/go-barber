@@ -21,11 +21,10 @@ class CancellationMail {
           parseISO(appointment.date),
           "dd 'de' MMMM 'de' yyyy ', às ' HH:mm'h'",
           { locale: pt }
-        )
-      }
-    })
+        ),
+      },
+    });
   }
-
 }
 
 export default new CancellationMail();

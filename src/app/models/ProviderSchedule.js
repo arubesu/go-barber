@@ -6,10 +6,10 @@ class ProviderSchedule extends Model {
       {
         start_hour: Sequelize.TIME,
         end_hour: Sequelize.TIME,
-        provider_id: Sequelize.INTEGER
+        provider_id: Sequelize.INTEGER,
       },
       {
-        sequelize
+        sequelize,
       }
     );
     return this;

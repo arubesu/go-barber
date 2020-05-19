@@ -10,6 +10,8 @@ export default async (req, res, next) => {
     await schema.validate(req.body, { abortEarly: false });
     next();
   } catch (err) {
-    return res.status(400).json({ error: 'Validation Fails', message: err.inner });
+    return res
+      .status(400)
+      .json({ error: 'Validation Fails', message: err.inner });
   }
-}
+};

@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('provider_schedules', {
@@ -11,11 +9,11 @@ module.exports = {
       },
       start_hour: {
         type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
       },
       end_hour: {
         type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
       },
       provider_id: {
         type: Sequelize.INTEGER,
@@ -25,16 +23,16 @@ module.exports = {
       },
       created_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       updated_at: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   },
 
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.dropTable('provider_schedules');
-  }
+  },
 };

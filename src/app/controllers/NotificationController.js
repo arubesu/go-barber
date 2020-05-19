@@ -3,7 +3,6 @@ import Notification from '../schemas/Notification';
 
 class NotificationController {
   async index(req, res) {
-
     /**
      * Check if is provider
      */
@@ -15,7 +14,9 @@ class NotificationController {
     });
 
     if (!isProvider) {
-      return res.status(401).json({ error: 'This user is not a service provider' });
+      return res
+        .status(401)
+        .json({ error: 'This user is not a service provider' });
     }
 
     const notifications = await Notification.find({
@@ -31,7 +32,7 @@ class NotificationController {
     const notification = await Notification.findOneAndUpdate(
       req.params.id,
       { read: true },
-      { new: true },
+      { new: true }
     );
 
     return res.json(notification);
