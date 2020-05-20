@@ -5,6 +5,7 @@ import Queue from '../../lib/Queue';
 import CancellationMail from '../jobs/CancellationMail';
 import BadRequestError from '../custom/errors/BadRequestError';
 import UnauthorizedError from '../custom/errors/UnauthorizedError';
+import Cache from '../../lib/Cache';
 
 class CancelAppointmentService {
   async run({ appointmentId, userId }) {
@@ -49,6 +50,8 @@ class CancelAppointmentService {
     await Queue.add(CancellationMail.key, {
       appointment,
     });
+
+    await Cache.clearPrefix(`user:${userId}`);
 
     return appointment;
   }
