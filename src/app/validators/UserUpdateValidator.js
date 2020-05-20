@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 
+const minLengthPassword = 8;
+
 export default async (req, res, next) => {
   try {
     const schema = Yup.object().shape({
