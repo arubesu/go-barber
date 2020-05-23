@@ -123,3 +123,6 @@ dist
 
 #tmp files
 tmp/uploads/*
+
+#Sqlite database
+ *.sqlite
