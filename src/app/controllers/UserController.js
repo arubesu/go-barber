@@ -19,7 +19,7 @@ class UserController {
       await Cache.clear('providers');
     }
 
-    return res.json({
+    return res.status(201).json({
       id,
       name,
       email,
