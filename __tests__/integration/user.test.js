@@ -32,4 +32,54 @@ describe('User', () => {
 
     expect(response.status).toBe(400);
   });
+
+  // test update email
+
+  it('Should return BadRequest when user tries to change the email and the new email is already registered', async () => {
+    /**
+     * Register 2 users with distinct emails
+     */
+
+    const user1 = await factory.attrs('User', {
+      email: 'sample1@mail.com',
+    });
+
+    await request(app)
+      .post('/users')
+      .send(user1);
+
+    const user2 = await factory.attrs('User', {
+      email: 'sample2@mail.com',
+    });
+
+    await request(app)
+      .post('/users')
+      .send(user2);
+
+    /**
+     * User 2 authentication
+     */
+
+    const { text } = await request(app)
+      .post('/sessions')
+      .send({
+        email: user2.email,
+        password: user2.password,
+      });
+
+    const { token } = JSON.parse(text);
+
+    /**
+     * User 2 tries to update his email with the user1's email
+     */
+
+    const updatedUser2 = { ...user2, email: user1.email };
+
+    const response = await request(app)
+      .put('/users')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(updatedUser2);
+
+    expect(response.status).toBe(400);
+  });
 });
