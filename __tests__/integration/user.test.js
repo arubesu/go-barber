@@ -33,8 +33,6 @@ describe('User', () => {
     expect(response.status).toBe(400);
   });
 
-  // test update email
-
   it('Should return BadRequest when user tries to change the email and the new email is already registered', async () => {
     /**
      * Register 2 users with distinct emails
@@ -81,5 +79,32 @@ describe('User', () => {
       .send(updatedUser2);
 
     expect(response.status).toBe(400);
+  });
+
+  it('Should return Unauthorized when user tries to change his password but sends invalid oldPassword', async () => {
+    const user = await factory.attrs('User', {
+      password: 'P4ssw0rd!#',
+    });
+
+    await request(app)
+      .post('/users')
+      .send(user);
+
+    const { text } = await request(app)
+      .post('/sessions')
+      .send(user);
+
+    const { token } = JSON.parse(text);
+
+    const response = await request(app)
+      .put('/users')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send({
+        ...user,
+        name: 'New Name',
+        oldPassword: 'IncorrectPAss4',
+      });
+
+    expect(response.status).toBe(401);
   });
 });
